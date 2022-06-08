@@ -1,9 +1,39 @@
+import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import useFirebase from '../../hooks/useFirebase/useFirebase';
 
 
 const Register = () => {
-    const {googleSignInHandler,githubSignInHandler}= useFirebase();
+    const {googleSignInHandler,githubSignInHandler,registerUser}= useFirebase();
+
+    const [email,setEmail]= useState('')
+    const [password,setPassword]= useState('')
+    const [error,setError]=useState('');
+
+    //Email on Blur events
+    const emailOnBlur = (e)=>{
+        // console.log(e.target.value);
+        const userEmail = e.target.value;
+        setEmail(userEmail);
+    }
+
+    const passwordOnBlur = (e)=>{
+        // console.log(e.target.value);
+        const userPassword = e.target.value;
+        setPassword(userPassword);
+    }
+
+    // registerBtnHandler
+    const registerBtnHandler = (e)=>{
+        e.preventDefault();
+        if(password.length < 6){
+            setError("password should be at least 6 characters")
+            return;
+        }
+        registerUser(email,password);
+        setError("");
+ 
+    }
 
 
     return (
@@ -15,7 +45,7 @@ const Register = () => {
                         Email
                     </Form.Label>
                     <Col sm={10}>
-                        <Form.Control className="p-2" type="email" placeholder="Email" />
+                        <Form.Control onBlur={emailOnBlur} className="p-2" type="email" placeholder="Email" required />
                     </Col>
                 </Form.Group>
 
@@ -24,7 +54,7 @@ const Register = () => {
                         Password
                     </Form.Label>
                     <Col sm={10}>
-                        <Form.Control className="p-2" type="password" placeholder="Password" />
+                        <Form.Control onBlur={passwordOnBlur} className="p-2" type="password" placeholder="Password" required />
                     </Col>
                 </Form.Group>
 
@@ -35,8 +65,9 @@ const Register = () => {
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3">
+                    <div className="text-danger fs-5 mb-2">{error}</div>
                     <Col sm={{ span: 2, offset: 2 }}>
-                        <button className="btn-primary rounded fs-5" type="submit">Register</button>
+                        <button onClick={registerBtnHandler} className="btn-primary rounded fs-5" type="submit">Register</button>
                     </Col>
                 </Form.Group>
             </Form>

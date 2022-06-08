@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, GithubAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, GithubAuthProvider, createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseInitialize from '../../components/Firebase/firebase.init';
 
 const useFirebase = () => {
@@ -12,6 +12,7 @@ const useFirebase = () => {
     const githubProvider = new GithubAuthProvider();
     const auth = getAuth();
 
+    //----------------/ google Sign in Method /----------------/
     const googleSignInHandler = () => {
         signInWithPopup(auth, googleProvider)
             .then(result => {
@@ -25,6 +26,7 @@ const useFirebase = () => {
             })
     }
 
+    //----------------/ github Sign in Method /----------------/
     const githubSignInHandler = () => {
         signInWithPopup(auth, githubProvider)
             .then((result) => {
@@ -39,6 +41,24 @@ const useFirebase = () => {
 
             });
     }
+
+    //----------------/ github Sign in Method /----------------/
+
+    const registerUser = (email, password) => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((result) => {
+                // Signed in 
+                const loginUser = result.user;
+                setUser(loginUser)
+                // ...
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                console.log(errorMessage);
+            });
+    }
+
+
     // On auth state change
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -52,6 +72,7 @@ const useFirebase = () => {
         return () => unsubscribe;
     }, [])
 
+    //----------------/ logout Method /----------------/
     const logoutHandler = () => {
         signOut(auth).then(() => {
             // Sign-out successful.
@@ -65,7 +86,8 @@ const useFirebase = () => {
         googleSignInHandler,
         user,
         logoutHandler,
-        githubSignInHandler
+        githubSignInHandler,
+        registerUser
     };
 };
 
