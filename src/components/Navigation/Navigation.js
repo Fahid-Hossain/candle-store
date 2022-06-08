@@ -7,7 +7,7 @@ import useAuth from '../../hooks/useAuth/useAuth';
 
 const Navigation = () => {
     const {user,logoutHandler}= useAuth();
-    // console.log("from navigation",user);
+    console.log("from navigation",user);
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -21,7 +21,7 @@ const Navigation = () => {
                             <Link className="nav-link" to="/products">Products</Link>
 
                         </Nav>
-                      { !user?.displayName ? <Nav>
+                      { !user?.email ? <Nav>
                             <NavLink className="nav-link" eventKey={2} to="/memes">
                                 Login
                             </NavLink>

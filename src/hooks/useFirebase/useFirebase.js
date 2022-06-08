@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, GithubAuthProvider } from "firebase/auth";
 import firebaseInitialize from '../../components/Firebase/firebase.init';
 
 const useFirebase = () => {
@@ -9,6 +9,7 @@ const useFirebase = () => {
 
     // auth provider
     const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
     const auth = getAuth();
 
     const googleSignInHandler = () => {
@@ -17,10 +18,29 @@ const useFirebase = () => {
                 const loginUser = result.user;
                 setUser(loginUser);
                 console.log("loginUser", loginUser);
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorMessage = error.message;
+                console.log(errorMessage);
             })
     }
+
+    const githubSignInHandler = () => {
+        signInWithPopup(auth, githubProvider)
+            .then((result) => {
+                // The signed-in user info.
+                const loginUser = result.user;
+                setUser(loginUser);
+                // ...
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorMessage = error.message;
+                console.log(errorMessage);
+
+            });
+    }
     // On auth state change
-    useEffect(()=>{
+    useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
@@ -30,7 +50,7 @@ const useFirebase = () => {
             }
         });
         return () => unsubscribe;
-    },[])
+    }, [])
 
     const logoutHandler = () => {
         signOut(auth).then(() => {
@@ -44,7 +64,8 @@ const useFirebase = () => {
     return {
         googleSignInHandler,
         user,
-        logoutHandler
+        logoutHandler,
+        githubSignInHandler
     };
 };
 

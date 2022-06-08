@@ -3,7 +3,7 @@ import useFirebase from '../../hooks/useFirebase/useFirebase';
 
 
 const Register = () => {
-    const {googleSignInHandler}= useFirebase();
+    const {googleSignInHandler,githubSignInHandler}= useFirebase();
 
 
     return (
@@ -42,7 +42,7 @@ const Register = () => {
             </Form>
             <p className="fs-5">OR</p>
             <button onClick={googleSignInHandler} className="btn-success rounded fs-5 me-2" type="submit">Sign In with Google</button>
-            <button className="btn-primary rounded fs-5" type="submit">Sign In with Github</button>
+            <button onClick={githubSignInHandler} className="btn-primary rounded fs-5" type="submit">Sign In with Github</button>
         </>
     );
 };
