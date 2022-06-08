@@ -1,9 +1,13 @@
 
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth/useAuth';
+// import useFirebase from '../hooks/useFirebase/useFirebase';
 
 const Navigation = () => {
+    const {user,logoutHandler}= useAuth();
+    // console.log("from navigation",user);
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -15,9 +19,21 @@ const Navigation = () => {
                             <Link className="nav-link" to="/home">Home</Link>
                             <Link className="nav-link" to="/about">About</Link>
                             <Link className="nav-link" to="/products">Products</Link>
-                            
+
                         </Nav>
-                  
+                      { !user?.displayName ? <Nav>
+                            <NavLink className="nav-link" eventKey={2} to="/memes">
+                                Login
+                            </NavLink>
+                            <NavLink className="nav-link" to="/register">
+                                Register
+                            </NavLink>
+                        </Nav> :  <div className="d-flex">
+                            <h4 className="text-primary me-3">{user?.displayName}</h4>
+                        <button onClick={logoutHandler} className="btn btn-primary">Logout</button>
+                        </div>
+                        }
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

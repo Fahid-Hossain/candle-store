@@ -8,23 +8,28 @@ import NotFound from './components/NotFound/NotFound';
 import Navigation from './components/Navigation/Navigation';
 import Products from './components/Products/Products';
 import ProductDetails from './components/ProductDetails/ProductDetails';
+import Register from './components/Register/Register';
+import AuthProvider from './context/AuthProvider';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-      <Navigation/>
-        <Routes>
+      <AuthProvider>
+        <BrowserRouter>
+          <Navigation />
+          <Routes>
             <Route path="home" element={<Home />} />
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="products" element={<Products />} />
+            <Route path="register" element={<Register />} />
             <Route path="product/:productId" element={<ProductDetails />} />
             <Route path="*" element={<NotFound />} />
-        
-        </Routes>
-      </BrowserRouter>
+
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </div>
   );
 }
