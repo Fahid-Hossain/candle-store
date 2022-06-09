@@ -4,7 +4,7 @@ import useFirebase from '../../hooks/useFirebase/useFirebase';
 
 
 const Register = () => {
-    const {googleSignInHandler,githubSignInHandler,registerUser}= useFirebase();
+    const {googleSignInHandler,githubSignInHandler,registerUser,firebaseError,message}= useFirebase();
 
     const [email,setEmail]= useState('')
     const [password,setPassword]= useState('')
@@ -39,7 +39,6 @@ const Register = () => {
             return;
         }
         registerUser(email,password,name);
-        setError("");
  
     }
 
@@ -82,6 +81,8 @@ const Register = () => {
 
                 <Form.Group as={Row} className="mb-3">
                     <div className="text-danger fs-5 mb-2">{error}</div>
+                    <div className="text-danger fs-5 mb-2">{firebaseError}</div>
+                    <div className="text-success fs-5 mb-2">{message}</div>
                     <Col sm={{ span: 2, offset: 2 }}>
                         <button onClick={registerBtnHandler} className="btn-primary rounded fs-5" type="submit">Register</button>
                     </Col>

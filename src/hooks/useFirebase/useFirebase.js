@@ -4,6 +4,8 @@ import firebaseInitialize from '../../components/Firebase/firebase.init';
 
 const useFirebase = () => {
     const [user, setUser] = useState({});
+    const [firebaseError,setFirebaseError]= useState('');
+    const [message,setMessage] = useState("");
     // initialize firebase 
     firebaseInitialize();
 
@@ -22,7 +24,7 @@ const useFirebase = () => {
             }).catch((error) => {
                 // Handle Errors here.
                 const errorMessage = error.message;
-                console.log(errorMessage);
+                setFirebaseError(errorMessage);
             })
     }
 
@@ -37,7 +39,7 @@ const useFirebase = () => {
             }).catch((error) => {
                 // Handle Errors here.
                 const errorMessage = error.message;
-                console.log(errorMessage);
+                setFirebaseError(errorMessage);
 
             });
     }
@@ -52,10 +54,14 @@ const useFirebase = () => {
                 setUser(loginUser)
                 // .. update userName profile
                 setUserName(name);
+                // success message
+                setMessage("Successfully Registation complete, pls Login.")
+                setFirebaseError('');
             })
             .catch((error) => {
                 const errorMessage = error.message;
-                console.log(errorMessage);
+                setFirebaseError(errorMessage);
+                setMessage('');
             });
     }
 
@@ -68,7 +74,8 @@ const useFirebase = () => {
             // ...
         }).catch((error) => {
             // An error occurred
-            // ...
+            const errorMessage = error.message;
+            setFirebaseError(errorMessage);
         });
     }
 
@@ -81,10 +88,11 @@ const useFirebase = () => {
                 // Signed in 
                 const loginUser = result.user;
                 setUser(loginUser);
+                setFirebaseError('');
             })
             .catch((error) => {
                 const errorMessage = error.message;
-                console.log(errorMessage);
+                setFirebaseError(errorMessage);
             });
     }
 
@@ -108,6 +116,8 @@ const useFirebase = () => {
             // setUser({});
         }).catch((error) => {
             // An error happened.
+            const errorMessage = error.message;
+            setFirebaseError(errorMessage);
         });
     }
     // console.log("from useFirebase", user.displayName);
@@ -118,7 +128,9 @@ const useFirebase = () => {
         githubSignInHandler,
         registerUser,
         loginUSer,
-        setUserName
+        setUserName,
+        firebaseError,
+        message
     };
 };
 

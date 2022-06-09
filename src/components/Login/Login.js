@@ -3,7 +3,7 @@ import { Col, Form, Row } from 'react-bootstrap';
 import useAuth from '../../hooks/useAuth/useAuth';
 
 const Login = () => {
-    const { googleSignInHandler, githubSignInHandler, loginUSer } = useAuth();
+    const { googleSignInHandler, githubSignInHandler, loginUSer,firebaseError } = useAuth();
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -63,6 +63,7 @@ const Login = () => {
 
                 <Form.Group as={Row} className="mb-3">
                     <div className="text-danger fs-5 mb-2">{error}</div>
+                    <div className="text-danger fs-5 mb-2">{firebaseError}</div>
                     <Col sm={{ span: 2, offset: 2 }}>
                         <button onClick={loginBtnHandler} className="btn-primary rounded fs-5" type="submit">Login</button>
                     </Col>
