@@ -21,8 +21,8 @@ const Navigation = () => {
                             <Link className="nav-link" to="/products">Products</Link>
 
                         </Nav>
-                      { !user?.email ? <Nav>
-                            <NavLink className="nav-link" eventKey={2} to="/memes">
+                      { !user?.displayName ? <Nav>
+                            <NavLink className="nav-link" eventKey={2} to="/login">
                                 Login
                             </NavLink>
                             <NavLink className="nav-link" to="/register">

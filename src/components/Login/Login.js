@@ -1,61 +1,42 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
-import useFirebase from '../../hooks/useFirebase/useFirebase';
+import useAuth from '../../hooks/useAuth/useAuth';
 
+const Login = () => {
+    const { googleSignInHandler, githubSignInHandler, loginUSer } = useAuth();
 
-const Register = () => {
-    const {googleSignInHandler,githubSignInHandler,registerUser}= useFirebase();
-
-    const [email,setEmail]= useState('')
-    const [password,setPassword]= useState('')
-    const [name,setName]= useState('')
-    const [error,setError]=useState('');
-
-    // Name OnBlur events
-    const nameOnBlur =(e)=>{
-        const userName = e.target.value;
-        setName(userName);
-    }
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState('');
 
     //Email on Blur events
-    const emailOnBlur = (e)=>{
+    const emailOnBlur = (e) => {
         // console.log(e.target.value);
         const userEmail = e.target.value;
         setEmail(userEmail);
     }
 
-    // Password on blur events
-    const passwordOnBlur = (e)=>{
+    const passwordOnBlur = (e) => {
         // console.log(e.target.value);
         const userPassword = e.target.value;
         setPassword(userPassword);
     }
 
     // registerBtnHandler
-    const registerBtnHandler = (e)=>{
+    const loginBtnHandler = (e) => {
         e.preventDefault();
-        if(password.length < 6){
+        if (password.length < 6) {
             setError("password should be at least 6 characters")
             return;
         }
-        registerUser(email,password,name);
+        loginUSer(email, password);
         setError("");
- 
+
     }
-
-
     return (
         <>
-            <h1 className="text-primary mt-4">Please Register</h1>
+            <h1 className="text-primary mt-4">Please Login</h1>
             <Form style={{ width: '50%', margin: "3rem auto 0 auto" }}>
-                <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-                    <Form.Label column sm={2}>
-                        Name
-                    </Form.Label>
-                    <Col sm={10}>
-                        <Form.Control onBlur={nameOnBlur} className="p-2" type="text" placeholder="Name" required />
-                    </Col>
-                </Form.Group>
                 <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
                     <Form.Label column sm={2}>
                         Email
@@ -83,7 +64,7 @@ const Register = () => {
                 <Form.Group as={Row} className="mb-3">
                     <div className="text-danger fs-5 mb-2">{error}</div>
                     <Col sm={{ span: 2, offset: 2 }}>
-                        <button onClick={registerBtnHandler} className="btn-primary rounded fs-5" type="submit">Register</button>
+                        <button onClick={loginBtnHandler} className="btn-primary rounded fs-5" type="submit">Login</button>
                     </Col>
                 </Form.Group>
             </Form>
@@ -94,4 +75,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Login;

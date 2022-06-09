@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, GithubAuthProvider, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, GithubAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import firebaseInitialize from '../../components/Firebase/firebase.init';
 
 const useFirebase = () => {
@@ -42,15 +42,16 @@ const useFirebase = () => {
             });
     }
 
-    //----------------/ github Sign in Method /----------------/
+    //----------------/ Register with email, password /----------------/
 
-    const registerUser = (email, password) => {
+    const registerUser = (email, password,name) => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((result) => {
                 // Signed in 
                 const loginUser = result.user;
                 setUser(loginUser)
-                // ...
+                // .. update userName profile
+                setUserName(name);
             })
             .catch((error) => {
                 const errorMessage = error.message;
@@ -58,6 +59,34 @@ const useFirebase = () => {
             });
     }
 
+    //----------------/ update profile name with email and password /----------------/
+    const setUserName = (name) => {
+        updateProfile(auth.currentUser, {
+            displayName: name
+        }).then(() => {
+            // Profile updated!
+            // ...
+        }).catch((error) => {
+            // An error occurred
+            // ...
+        });
+    }
+
+
+    //----------------/ Login with email, password /----------------/
+
+    const loginUSer = (email, password) => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then((result) => {
+                // Signed in 
+                const loginUser = result.user;
+                setUser(loginUser);
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                console.log(errorMessage);
+            });
+    }
 
     // On auth state change
     useEffect(() => {
@@ -87,7 +116,9 @@ const useFirebase = () => {
         user,
         logoutHandler,
         githubSignInHandler,
-        registerUser
+        registerUser,
+        loginUSer,
+        setUserName
     };
 };
 
