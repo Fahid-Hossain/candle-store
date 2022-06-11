@@ -16,16 +16,16 @@ const useFirebase = () => {
 
     //----------------/ google Sign in Method /----------------/
     const googleSignInHandler = () => {
-        signInWithPopup(auth, googleProvider)
-            .then(result => {
-                const loginUser = result.user;
-                setUser(loginUser);
-                console.log("loginUser", loginUser);
-            }).catch((error) => {
-                // Handle Errors here.
-                const errorMessage = error.message;
-                setFirebaseError(errorMessage);
-            })
+        return signInWithPopup(auth, googleProvider)
+            // .then(result => {
+            //     const loginUser = result.user;
+            //     setUser(loginUser);
+            //     console.log("loginUser", loginUser);
+            // }).catch((error) => {
+            //     // Handle Errors here.
+            //     const errorMessage = error.message;
+            //     setFirebaseError(errorMessage);
+            // })
     }
 
     //----------------/ github Sign in Method /----------------/
@@ -145,7 +145,9 @@ const useFirebase = () => {
         loginUSer,
         setUserName,
         firebaseError,
-        message
+        message,
+        setUser,
+        setFirebaseError
     };
 };
 

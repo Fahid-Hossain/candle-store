@@ -1,13 +1,36 @@
 import React, { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth/useAuth';
 
 const Login = () => {
-    const { googleSignInHandler, githubSignInHandler, loginUSer,firebaseError } = useAuth();
+    const { googleSignInHandler, githubSignInHandler, loginUSer,firebaseError,setUser,setFirebaseError } = useAuth();
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('');
+
+    // For Redirect Navigate 
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/";
+
+    // googleSignInHandler as googleLoginHandler for redirect user
+    const googleLoginHandler =()=>{
+        googleSignInHandler()
+        .then(result => {
+                const loginUser = result.user;
+                setUser(loginUser);
+                console.log("loginUser", loginUser);
+                //Navigate User to
+                navigate(from,{replace:true});
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorMessage = error.message;
+                setFirebaseError(errorMessage);
+            })
+    }
 
     //Email on Blur events
     const emailOnBlur = (e) => {
@@ -70,7 +93,7 @@ const Login = () => {
                 </Form.Group>
             </Form>
             <p className="fs-5">OR</p>
-            <button onClick={googleSignInHandler} className="btn-success rounded fs-5 me-2" type="submit">Sign In with Google</button>
+            <button onClick={googleLoginHandler} className="btn-success rounded fs-5 me-2" type="submit">Sign In with Google</button>
             <button onClick={githubSignInHandler} className="btn-primary rounded fs-5" type="submit">Sign In with Github</button>
         </>
     );
