@@ -32,6 +32,26 @@ const Login = () => {
             })
     }
 
+        // githubSignInHandler as githubLoginHandler for redirect user
+        const githubLoginHandler =()=>{
+            githubSignInHandler()
+            .then((result) => {
+                // The signed-in user info.
+                const loginUser = result.user;
+                setUser(loginUser);
+                 //Navigate User to
+                 navigate(from,{replace:true});
+                // ...
+                setFirebaseError('');
+
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorMessage = error.message;
+                setFirebaseError(errorMessage);
+
+            });
+        }
+
     //Email on Blur events
     const emailOnBlur = (e) => {
         // console.log(e.target.value);
@@ -52,7 +72,7 @@ const Login = () => {
             setError("password should be at least 6 characters")
             return;
         }
-        loginUSer(email, password);
+        loginUSer(email, password, navigate, from);
         setError("");
 
     }
@@ -94,7 +114,7 @@ const Login = () => {
             </Form>
             <p className="fs-5">OR</p>
             <button onClick={googleLoginHandler} className="btn-success rounded fs-5 me-2" type="submit">Sign In with Google</button>
-            <button onClick={githubSignInHandler} className="btn-primary rounded fs-5" type="submit">Sign In with Github</button>
+            <button onClick={githubLoginHandler} className="btn-primary rounded fs-5" type="submit">Sign In with Github</button>
         </>
     );
 };

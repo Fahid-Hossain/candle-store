@@ -1,45 +1,89 @@
 import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useFirebase from '../../hooks/useFirebase/useFirebase';
 
 
 const Register = () => {
-    const {googleSignInHandler,githubSignInHandler,registerUser,firebaseError,message}= useFirebase();
+    const { googleSignInHandler, githubSignInHandler, registerUser, firebaseError, message,setUser,setFirebaseError } = useFirebase();
 
-    const [email,setEmail]= useState('')
-    const [password,setPassword]= useState('')
-    const [name,setName]= useState('')
-    const [error,setError]=useState('');
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
+    const [error, setError] = useState('');
+
+
+    // For Redirect Navigate 
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/";
+
+    // googleSignInHandler as googleLoginHandler for redirect user
+    const googleLoginHandler = () => {
+        googleSignInHandler()
+            .then(result => {
+                const loginUser = result.user;
+                setUser(loginUser);
+                console.log("loginUser", loginUser);
+                //Navigate User to
+                navigate(from, { replace: true });
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorMessage = error.message;
+                setFirebaseError(errorMessage);
+            })
+    }
+
+    // githubSignInHandler as githubLoginHandler for redirect user
+    const githubLoginHandler = () => {
+        githubSignInHandler()
+            .then((result) => {
+                // The signed-in user info.
+                const loginUser = result.user;
+                setUser(loginUser);
+                //Navigate User to
+                navigate(from, { replace: true });
+                // ...
+                setFirebaseError('');
+
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorMessage = error.message;
+                setFirebaseError(errorMessage);
+
+            });
+    }
 
     // Name OnBlur events
-    const nameOnBlur =(e)=>{
+    const nameOnBlur = (e) => {
         const userName = e.target.value;
         setName(userName);
     }
 
     //Email on Blur events
-    const emailOnBlur = (e)=>{
+    const emailOnBlur = (e) => {
         // console.log(e.target.value);
         const userEmail = e.target.value;
         setEmail(userEmail);
     }
 
     // Password on blur events
-    const passwordOnBlur = (e)=>{
+    const passwordOnBlur = (e) => {
         // console.log(e.target.value);
         const userPassword = e.target.value;
         setPassword(userPassword);
     }
 
     // registerBtnHandler
-    const registerBtnHandler = (e)=>{
+    const registerBtnHandler = (e) => {
         e.preventDefault();
-        if(password.length < 6){
+        if (password.length < 6) {
             setError("password should be at least 6 characters")
             return;
         }
-        registerUser(email,password,name);
- 
+        registerUser(email, password, name, navigate, from);
+
     }
 
 
@@ -89,8 +133,8 @@ const Register = () => {
                 </Form.Group>
             </Form>
             <p className="fs-5">OR</p>
-            <button onClick={googleSignInHandler} className="btn-success rounded fs-5 me-2" type="submit">Sign In with Google</button>
-            <button onClick={githubSignInHandler} className="btn-primary rounded fs-5" type="submit">Sign In with Github</button>
+            <button onClick={googleLoginHandler} className="btn-success rounded fs-5 me-2" type="submit">Sign In with Google</button>
+            <button onClick={githubLoginHandler} className="btn-primary rounded fs-5" type="submit">Sign In with Github</button>
         </>
     );
 };

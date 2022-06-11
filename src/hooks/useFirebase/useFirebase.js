@@ -6,6 +6,7 @@ const useFirebase = () => {
     const [user, setUser] = useState({});
     const [firebaseError, setFirebaseError] = useState('');
     const [message, setMessage] = useState("");
+
     // initialize firebase 
     firebaseInitialize();
 
@@ -17,36 +18,36 @@ const useFirebase = () => {
     //----------------/ google Sign in Method /----------------/
     const googleSignInHandler = () => {
         return signInWithPopup(auth, googleProvider)
-            // .then(result => {
-            //     const loginUser = result.user;
-            //     setUser(loginUser);
-            //     console.log("loginUser", loginUser);
-            // }).catch((error) => {
-            //     // Handle Errors here.
-            //     const errorMessage = error.message;
-            //     setFirebaseError(errorMessage);
-            // })
+        // .then(result => {
+        //     const loginUser = result.user;
+        //     setUser(loginUser);
+        //     console.log("loginUser", loginUser);
+        // }).catch((error) => {
+        //     // Handle Errors here.
+        //     const errorMessage = error.message;
+        //     setFirebaseError(errorMessage);
+        // })
     }
 
     //----------------/ github Sign in Method /----------------/
     const githubSignInHandler = () => {
-        signInWithPopup(auth, githubProvider)
-            .then((result) => {
-                // The signed-in user info.
-                const loginUser = result.user;
-                setUser(loginUser);
-                // ...
-            }).catch((error) => {
-                // Handle Errors here.
-                const errorMessage = error.message;
-                setFirebaseError(errorMessage);
+        return signInWithPopup(auth, githubProvider)
+            // .then((result) => {
+            //     // The signed-in user info.
+            //     const loginUser = result.user;
+            //     setUser(loginUser);
+            //     // ...
+            // }).catch((error) => {
+            //     // Handle Errors here.
+            //     const errorMessage = error.message;
+            //     setFirebaseError(errorMessage);
 
-            });
+            // });
     }
 
     //----------------/ Register with email, password /----------------/
 
-    const registerUser = (email, password, name) => {
+    const registerUser = (email, password, name, navigate, from) => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((result) => {
                 // Signed in 
@@ -59,6 +60,8 @@ const useFirebase = () => {
                 setFirebaseError('');
                 //Email varification
                 // sendEmail();
+                //Navigate user
+                navigate(from, { replace: true });
             })
             .catch((error) => {
                 const errorMessage = error.message;
@@ -97,13 +100,15 @@ const useFirebase = () => {
 
     //----------------/ Login with email, password /----------------/
 
-    const loginUSer = (email, password) => {
+    const loginUSer = (email, password, navigate, from) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((result) => {
                 // Signed in 
                 const loginUser = result.user;
                 setUser(loginUser);
                 setFirebaseError('');
+                //Navigate user
+                navigate(from, { replace: true });
             })
             .catch((error) => {
                 const errorMessage = error.message;
