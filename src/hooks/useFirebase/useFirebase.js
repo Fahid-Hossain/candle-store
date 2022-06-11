@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, GithubAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, GithubAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
 import firebaseInitialize from '../../components/Firebase/firebase.init';
 
 const useFirebase = () => {
     const [user, setUser] = useState({});
-    const [firebaseError,setFirebaseError]= useState('');
-    const [message,setMessage] = useState("");
+    const [firebaseError, setFirebaseError] = useState('');
+    const [message, setMessage] = useState("");
     // initialize firebase 
     firebaseInitialize();
 
@@ -46,7 +46,7 @@ const useFirebase = () => {
 
     //----------------/ Register with email, password /----------------/
 
-    const registerUser = (email, password,name) => {
+    const registerUser = (email, password, name) => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((result) => {
                 // Signed in 
@@ -57,6 +57,8 @@ const useFirebase = () => {
                 // success message
                 setMessage("Successfully Registation complete, pls Login.")
                 setFirebaseError('');
+                //Email varification
+                // sendEmail();
             })
             .catch((error) => {
                 const errorMessage = error.message;
@@ -64,6 +66,19 @@ const useFirebase = () => {
                 setMessage('');
             });
     }
+
+    //----------------/ send email varification when register /----------------/
+
+    const sendEmail = () => {
+        sendEmailVerification(auth.currentUser)
+            .then(() => {
+                // Email verification sent!
+                // ...
+            });
+    }
+
+
+
 
     //----------------/ update profile name with email and password /----------------/
     const setUserName = (name) => {

@@ -19,6 +19,7 @@ const Navigation = () => {
                             <Link className="nav-link" to="/home">Home</Link>
                             <Link className="nav-link" to="/about">About</Link>
                             <Link className="nav-link" to="/products">Products</Link>
+                            <Link className="nav-link" to="/dashboard">Dashboard</Link>
 
                         </Nav>
                       { !user?.displayName ? <Nav>
