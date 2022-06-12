@@ -1,10 +1,11 @@
+//Firebase config using environment variables
 const firebaseConfig = {
-    apiKey: "AIzaSyBFUdhT9RlJINODw8KKMjRKlSV6QkDDHFk",
-    authDomain: "candle-store-9ebff.firebaseapp.com",
-    projectId: "candle-store-9ebff",
-    storageBucket: "candle-store-9ebff.appspot.com",
-    messagingSenderId: "155589654737",
-    appId: "1:155589654737:web:1897ed389fe5b2dd322df0"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
   };
 
 export default firebaseConfig;
