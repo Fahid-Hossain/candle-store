@@ -18,8 +18,12 @@ const Navigation = () => {
                         <Nav className="me-auto">
                             <Link className="nav-link" to="/home">Home</Link>
                             <Link className="nav-link" to="/about">About</Link>
-                            <Link className="nav-link" to="/products">Products</Link>
+                            <Link className="nav-link" to="/products">Meals</Link>
+                            <Link className="nav-link" to="/productsAll">products</Link>
+                            <Link className="nav-link" to="/addProducts">Add_products</Link>
                             <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                            <Link className="nav-link" to="/feedback">Feedback</Link>
+                            <Link className="nav-link" to="/users">Users</Link>
 
                         </Nav>
                       { !user?.email ? <Nav>

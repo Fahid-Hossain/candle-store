@@ -13,6 +13,11 @@ import AuthProvider from './context/AuthProvider';
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import ProductsAll from './components/productsAll/ProductsAll';
+import AddProducts from './components/addProducts/AddProducts';
+import Feedback from './components/feedback/Feedback';
+import RegisteredUser from './components/RegisteredUser/RegisteredUser';
+import RegisterUserDetails from './components/RegisterUserDetails/RegisterUserDetails';
 
 function App() {
   return (
@@ -26,6 +31,11 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="products" element={<Products />} />
+            <Route path="productsAll" element={<ProductsAll />} />
+            <Route path="addProducts" element={<AddProducts />} />
+            <Route path="feedback" element={<Feedback />} />
+            <Route path="users" element={<RegisteredUser />} />
+            <Route path="users/userDetails/:userId" element={<RegisterUserDetails />} />
 
               {/* //Private route */}
             <Route path="dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>} />

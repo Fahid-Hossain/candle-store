@@ -83,7 +83,7 @@ const Register = () => {
             return;
         }
         registerUser(email, password, name, navigate, from);
-
+        
     }
 
 
